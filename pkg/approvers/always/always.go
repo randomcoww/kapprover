@@ -11,8 +11,7 @@ import (
 )
 
 const (
-	kubeletBootstrapUsername = "kubelet-bootstrap"
-	kubeletBootstrapGroup    = "system:kubelet-bootstrap"
+	kubeletBootstrapGroup = "system:nodes"
 )
 
 func init() {
@@ -46,10 +45,6 @@ func (*Always) Approve(client v1beta1.CertificateSigningRequestInterface, reques
 
 		// Ensure the CSR has been submitted by a kubelet performing its TLS
 		// bootstrapping by checking the username and the group.
-		if request.Spec.Username != kubeletBootstrapUsername {
-			return nil
-		}
-
 		isKubeletBootstrapGroup := false
 		for _, group := range request.Spec.Groups {
 			if group == kubeletBootstrapGroup {
