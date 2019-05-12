@@ -1,5 +1,12 @@
-FROM       golang:alpine
+FROM       golang:alpine AS BUILD
 MAINTAINER Quentin Machu <quentin.machu@coreos.com>
-ADD        . /go/src/github.com/coreos/kapprover
-RUN        go install github.com/coreos/kapprover/cmd/kapprover
-ENTRYPOINT ["/go/bin/kapprover"]
+
+WORKDIR /go/src/github.com/coreos/kapprover
+COPY . .
+RUN set -x \
+  \
+  && go install ./cmd/kapprover
+
+FROM alpine:edge
+COPY --from=BUILD /go/bin/kapprover /kapprover
+ENTRYPOINT ["/kapprover"]

@@ -1,13 +1,13 @@
 package: github.com/coreos/kapprover
 import:
 - package: github.com/Sirupsen/logrus
-  version: ^0.11.2
+  version: ^1.4.1
 - package: k8s.io/apimachinery
   subpackages:
   - pkg/apis/meta/v1
   - pkg/fields
 - package: k8s.io/client-go
-  version: v2.0.0
+  version: v11.0.0
   subpackages:
   - kubernetes
   - kubernetes/typed/certificates/v1beta1
