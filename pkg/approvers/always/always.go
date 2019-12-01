@@ -3,7 +3,7 @@ package always
 import (
 	"strings"
 
-	log "github.com/Sirupsen/logrus"
+	log "github.com/sirupsen/logrus"
 	"github.com/coreos/kapprover/pkg/approvers"
 	certificates "k8s.io/api/certificates/v1beta1"
 	meta "k8s.io/apimachinery/pkg/apis/meta/v1"
