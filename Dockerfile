@@ -7,7 +7,8 @@ COPY . .
 RUN set -x \
   \
   && GO111MODULE=on GOOS=linux \
-    go install ./cmd/kapprover
+    go install -v -ldflags '-w -s' \
+    ./cmd/kapprover
 
 FROM alpine:edge
 
