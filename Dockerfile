@@ -7,8 +7,7 @@ COPY . .
 RUN set -x \
   \
   && CGO_ENABLED=0 GO111MODULE=on GOOS=linux \
-    go build -v -a -ldflags '-w -s -extldflags "-static"' \
-    -o kapprover ./cmd/kapprover
+    go build -v -ldflags '-s -w' -o kapprover ./cmd/kapprover
 
 FROM scratch
 
