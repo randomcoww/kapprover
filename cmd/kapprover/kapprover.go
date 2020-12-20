@@ -7,7 +7,7 @@ import (
 
 	log "github.com/sirupsen/logrus"
 	"github.com/coreos/kapprover/pkg/approvers"
-	certificates "k8s.io/api/certificates/v1beta1"
+	certificates "k8s.io/api/certificates/v1"
 	"k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/fields"
 	"k8s.io/client-go/kubernetes"
@@ -46,7 +46,7 @@ func main() {
 	// Create a watcher and an informer for CertificateSigningRequests.
 	// The Add function
 	watchList := cache.NewListWatchFromClient(
-		client.CertificatesV1beta1().RESTClient(),
+		client.CertificatesV1().RESTClient(),
 		"certificatesigningrequests",
 		v1.NamespaceAll,
 		fields.Everything(),
@@ -54,7 +54,7 @@ func main() {
 
 	f := func(obj interface{}) {
 		if req, ok := obj.(*certificates.CertificateSigningRequest); ok {
-			if err := approver.Approve(client.CertificatesV1beta1().CertificateSigningRequests(), req); err != nil {
+			if err := approver.Approve(client.CertificatesV1().CertificateSigningRequests(), req); err != nil {
 				log.Errorf("Failed to approve %q: %s", req.ObjectMeta.Name, err)
 				return
 			}

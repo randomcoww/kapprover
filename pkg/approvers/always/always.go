@@ -1,13 +1,14 @@
 package always
 
 import (
+	"context"
 	"strings"
 
 	log "github.com/sirupsen/logrus"
 	"github.com/coreos/kapprover/pkg/approvers"
-	certificates "k8s.io/api/certificates/v1beta1"
+	certificates "k8s.io/api/certificates/v1"
 	meta "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/client-go/kubernetes/typed/certificates/v1beta1"
+	"k8s.io/client-go/kubernetes/typed/certificates/v1"
 )
 
 const (
@@ -25,7 +26,7 @@ func init() {
 type Always struct{}
 
 // Approve approves CSRs in a loop.
-func (*Always) Approve(client v1beta1.CertificateSigningRequestInterface, request *certificates.CertificateSigningRequest) error {
+func (*Always) Approve(client v1.CertificateSigningRequestInterface, request *certificates.CertificateSigningRequest) error {
 	condition := certificates.CertificateSigningRequestCondition{
 		Type:    certificates.CertificateApproved,
 		Reason:  "AutoApproved",
@@ -60,11 +61,11 @@ func (*Always) Approve(client v1beta1.CertificateSigningRequestInterface, reques
 		request.Status.Conditions = append(request.Status.Conditions, condition)
 
 		// Submit the updated CSR.
-		if _, err := client.UpdateApproval(request); err != nil {
+		if _, err := client.UpdateApproval(context.TODO(), request.ObjectMeta.Name, request, meta.UpdateOptions{}); err != nil {
 			if strings.Contains(err.Error(), "the object has been modified") {
 				// The CSR might have been updated by a third-party, retry until we
 				// succeed.
-				request, err = client.Get(request.ObjectMeta.Name, meta.GetOptions{})
+				request, err = client.Get(context.TODO(), request.ObjectMeta.Name, meta.GetOptions{})
 				if err != nil {
 					return err
 				}
