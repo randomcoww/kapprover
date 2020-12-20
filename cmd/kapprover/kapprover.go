@@ -5,8 +5,8 @@ import (
 	"strings"
 	"time"
 
-	log "github.com/sirupsen/logrus"
 	"github.com/coreos/kapprover/pkg/approvers"
+	log "github.com/sirupsen/logrus"
 	certificates "k8s.io/api/certificates/v1"
 	"k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/fields"

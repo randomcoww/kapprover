@@ -4,9 +4,10 @@ import (
 	"context"
 	"strings"
 
-	log "github.com/sirupsen/logrus"
 	"github.com/coreos/kapprover/pkg/approvers"
+	log "github.com/sirupsen/logrus"
 	certificates "k8s.io/api/certificates/v1"
+	core "k8s.io/api/core/v1"
 	meta "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes/typed/certificates/v1"
 )
@@ -29,6 +30,7 @@ type Always struct{}
 func (*Always) Approve(client v1.CertificateSigningRequestInterface, request *certificates.CertificateSigningRequest) error {
 	condition := certificates.CertificateSigningRequestCondition{
 		Type:    certificates.CertificateApproved,
+		Status:  core.ConditionTrue,
 		Reason:  "AutoApproved",
 		Message: "Auto approving of all kubelet CSRs is enabled on bootkube",
 	}
