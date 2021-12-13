@@ -15,3 +15,29 @@ The easiest way to deploy _kapprover_ is to use the provided `deployment.yaml`
 resource.
 
 [TLS client certificate bootstrapping]: https://kubernetes.io/docs/admin/kubelet-tls-bootstrapping/
+
+### Image build
+
+```
+mkdir -p build
+export TMPDIR=$(pwd)/build
+
+VERSION=latest
+
+podman build \
+  -f Dockerfile \
+  -t ghcr.io/randomcoww/kapprover:$VERSION
+```
+
+```
+podman push ghcr.io/randomcoww/kapprover:$VERSION
+```
+
+### Env
+
+```
+podman run -it --rm \
+  -v $(pwd):/go/src/github.com/coreos/kapprover \
+  -w /go/src/github.com/coreos/kapprover \
+   golang:alpine sh
+```
