@@ -19,18 +19,15 @@ resource.
 ### Image build
 
 ```
-mkdir -p build
-export TMPDIR=$(pwd)/build
-
 VERSION=latest
+TAG=ghcr.io/randomcoww/kapprover:$VERSION
 
-podman build \
+buildah build \
+  --dns 9.9.9.9 \
   -f Dockerfile \
-  -t ghcr.io/randomcoww/kapprover:$VERSION
-```
+  -t $TAG && \
 
-```
-podman push ghcr.io/randomcoww/kapprover:$VERSION
+buildah push $TAG
 ```
 
 ### Env
