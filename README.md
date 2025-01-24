@@ -1,19 +1,8 @@
-### Image build
-
-```
-TAG=ghcr.io/randomcoww/kapprover:$(date -u +'%Y%m%d')
-
-podman build \
-  -t $TAG . && \
-
-podman push $TAG
-```
-
-### Env
+### Dev
 
 ```
 podman run -it --rm \
-  -v $(pwd):/go/src/github.com/coreos/kapprover \
-  -w /go/src/github.com/coreos/kapprover \
+  -v $(pwd):/go/src/kapprover \
+  -w /go/src/kapprover \
    golang:alpine sh
 ```
