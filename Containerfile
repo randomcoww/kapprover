@@ -1,4 +1,4 @@
-FROM golang:alpine AS BUILD
+FROM golang:alpine AS build
 
 WORKDIR /go/src/github.com/coreos/kapprover
 COPY . .
@@ -8,5 +8,5 @@ RUN set -x \
 
 FROM scratch
 
-COPY --from=BUILD /go/src/github.com/coreos/kapprover/kapprover /
+COPY --from=build /go/src/github.com/coreos/kapprover/kapprover /
 ENTRYPOINT ["/kapprover"]
