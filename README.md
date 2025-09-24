@@ -2,7 +2,7 @@
 
 ```
 podman run -it --rm \
-  -v $(pwd):/go/src/kapprover \
-  -w /go/src/kapprover \
-   golang:alpine sh
+  -v $(pwd):/go/src \
+  -w /go/src \
+  docker.io/golang:alpine sh
 ```
