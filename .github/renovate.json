@@ -21,6 +21,7 @@
       ],
       "automerge": true,
       "ignoreTests": true,
+      "reuseExistingBranch": true,
       "groupName": "minor-update"
     }
   ]
